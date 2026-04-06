@@ -463,8 +463,8 @@ html, body {
 }
 .search-box .form-control-dark { padding-left: 38px; }
 
-/* ── Student Card ── */
-.student-card {
+/* ── Employee Card ── */
+.employee-card {
   background: var(--dark-card2);
   border: 1px solid var(--dark-border);
   border-radius: 14px;
@@ -475,7 +475,7 @@ html, body {
   position: relative;
   overflow: hidden;
 }
-.student-card::before {
+.employee-card::before {
   content: '';
   position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
   background: linear-gradient(180deg, var(--primary), var(--accent));
@@ -483,17 +483,17 @@ html, body {
   border-radius: 3px 0 0 3px;
   transition: opacity 0.25s;
 }
-.student-card:hover { 
+.employee-card:hover { 
   border-color: rgba(108,99,255,0.45); 
   background: rgba(108,99,255,0.07); 
   transform: translateX(3px);
 }
-.student-card:hover::before { opacity: 1; }
+.employee-card:hover::before { opacity: 1; }
 
-.student-info { flex: 1; min-width: 0; }
-.student-name { font-size: 14px; font-weight: 700; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.student-dept { font-size: 11px; font-weight: 500; color: var(--text-muted); margin-top: 1px; text-transform: uppercase; letter-spacing: 0.6px; }
-.student-id { font-size: 12px; color: var(--text-muted); font-family: var(--font-mono); margin-top: 2px; }
+.employee-info { flex: 1; min-width: 0; }
+.employee-name { font-size: 14px; font-weight: 700; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.employee-dept { font-size: 11px; font-weight: 500; color: var(--text-muted); margin-top: 1px; text-transform: uppercase; letter-spacing: 0.6px; }
+.employee-id { font-size: 12px; color: var(--text-muted); font-family: var(--font-mono); margin-top: 2px; }
 
 /* ── Rate badge ── */
 .rate-badge {
@@ -830,7 +830,7 @@ html, body {
   <button class="sidebar-item" onclick="showPage('log', this)">
     <i class="fas fa-list-ul"></i> Attendance Log
   </button>
-  <button class="sidebar-item" onclick="showPage('students', this)">
+  <button class="sidebar-item" onclick="showPage('employees', this)">
     <i class="fas fa-id-badge"></i> Employees
   </button>
   <button class="sidebar-item" onclick="showPage('reports', this)">
@@ -966,7 +966,7 @@ html, body {
   </div>
 
   <!-- ── STUDENTS PAGE ── -->
-  <div class="page" id="page-students">
+  <div class="page" id="page-employees">
     <div class="page-heading">Employees</div>
     <div class="page-sub">Mag-manage ng registered employees</div>
 
@@ -998,11 +998,11 @@ html, body {
         </div>
         <div class="col-12 col-sm-4">
           <label class="form-label-dark">Employee UID <span style="color:var(--accent);font-size:11px;">(Auto-generated)</span></label>
-          <input type="text" class="form-control-dark" id="newStudentId" placeholder="EM-000001" readonly style="color:var(--accent); cursor:not-allowed; opacity:0.8;">
+          <input type="text" class="form-control-dark" id="newEmployeeId" placeholder="EM-000001" readonly style="color:var(--accent); cursor:not-allowed; opacity:0.8;">
         </div>
       </div>
       <div class="d-flex gap-2 mt-3 flex-wrap">
-        <button class="btn-primary-custom" onclick="addStudent()">
+        <button class="btn-primary-custom" onclick="addEmployee()">
           <i class="fas fa-user-plus"></i> Idagdag
         </button>
         <button class="btn-outline-custom" onclick="openImportModal()">
@@ -1011,16 +1011,16 @@ html, body {
       </div>
     </div>
 
-    <!-- Student list -->
+    <!-- Employee list -->
     <div class="glass-card">
       <div class="d-flex align-items-center justify-content-between mb-3">
-        <div class="section-title mb-0">Registered (<span id="studentCount">0</span>)</div>
+        <div class="section-title mb-0">Registered (<span id="employeeCount">0</span>)</div>
         <div class="search-box mb-0" style="width:180px;">
           <i class="fas fa-magnifying-glass"></i>
-          <input type="text" class="form-control-dark" id="studentSearch" placeholder="Hanapin…" oninput="renderStudents()" style="font-size:13px; padding:8px 8px 8px 34px;">
+          <input type="text" class="form-control-dark" id="employeeSearch" placeholder="Hanapin…" oninput="renderEmployees()" style="font-size:13px; padding:8px 8px 8px 34px;">
         </div>
       </div>
-      <div id="studentList"></div>
+      <div id="employeeList"></div>
     </div>
   </div>
 
@@ -1056,7 +1056,7 @@ html, body {
       </div>
     </div>
 
-    <!-- Summary by student -->
+    <!-- Summary by employee -->
     <div class="glass-card">
       <div class="summary-header">
         <div class="section-title mb-0">Attendance Summary per Employee</div>
@@ -1187,7 +1187,7 @@ html, body {
     <i class="fas fa-list-ul"></i>
     <span>Log</span>
   </button>
-  <button class="nav-item" id="nav-students" onclick="showPage('students', this)">
+  <button class="nav-item" id="nav-employees" onclick="showPage('employees', this)">
     <i class="fas fa-id-badge"></i>
     <span>Employees</span>
   </button>
@@ -1238,7 +1238,7 @@ html, body {
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title"><i class="fas fa-file-import me-2" style="color:var(--accent)"></i>Import Students (CSV)</h5>
+        <h5 class="modal-title"><i class="fas fa-file-import me-2" style="color:var(--accent)"></i>Import Employees (CSV)</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
@@ -1279,16 +1279,36 @@ html, body {
         <label class="form-label-dark">Department</label>
         <input type="text" class="form-control-dark mb-3" id="editDepartment">
         <label class="form-label-dark">Employee Type</label>
-        <select class="form-control-dark" id="editEmpType">
+        <select class="form-control-dark mb-3" id="editEmpType">
           <option value="Regular">Regular</option>
           <option value="Casual">Casual</option>
           <option value="Job Order">Job Order</option>
           <option value="Contractual">Contractual</option>
           <option value="Seconded">Seconded</option>
         </select>
+
+        <!-- NFC UID -->
+        <label class="form-label-dark" style="display:flex;align-items:center;gap:6px;">
+          <i class="fas fa-wifi" style="color:var(--primary);font-size:11px;"></i>
+          NFC Card UID
+        </label>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <input type="text" class="form-control-dark" id="editNfcUid" placeholder="Wala pang NFC card" style="font-family:var(--font-mono);font-size:13px;flex:1;">
+          <button type="button" id="assignNfcBtn" onclick="startAssignNfc()" style="
+            background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+            border:none;color:white;border-radius:10px;
+            padding:11px 14px;font-size:13px;font-weight:600;
+            cursor:pointer;white-space:nowrap;flex-shrink:0;
+            display:flex;align-items:center;gap:6px;
+            transition:all 0.2s;
+          ">
+            <i class="fas fa-wifi"></i> I-scan
+          </button>
+        </div>
+        <div id="nfcAssignStatus" style="font-size:12px;color:var(--text-muted);margin-top:6px;min-height:18px;"></div>
       </div>
       <div class="modal-footer">
-        <button class="btn-outline-custom" data-bs-dismiss="modal">Kanselahin</button>
+        <button class="btn-outline-custom" data-bs-dismiss="modal" onclick="cancelAssignNfc()">Kanselahin</button>
         <button class="btn-primary-custom" onclick="saveEdit()">
           <i class="fas fa-floppy-disk"></i> I-save
         </button>
@@ -1371,8 +1391,8 @@ html, body {
 //  DATA LAYER  (swap these functions for Firebase later)
 // ═══════════════════════════════════════════════════════════
 const DB = {
-  get students() { return JSON.parse(localStorage.getItem('att_students') || '[]'); },
-  set students(v) { localStorage.setItem('att_students', JSON.stringify(v)); },
+  get students() { return JSON.parse(localStorage.getItem('att_employees') || '[]'); },
+  set students(v) { localStorage.setItem('att_employees', JSON.stringify(v)); },
   get log() { return JSON.parse(localStorage.getItem('att_log') || '[]'); },
   set log(v) { localStorage.setItem('att_log', JSON.stringify(v)); },
   get settings() { return JSON.parse(localStorage.getItem('att_settings') || '{}'); },
@@ -1500,7 +1520,7 @@ function showPage(name, el) {
   if (name==='dashboard') renderDashboard();
   if (name==='log') { renderLog(); populateDateFilters(); }
   if (name==='scan') renderTodayScan();
-  if (name==='students') { renderStudents(); refreshNewUID(); }
+  if (name==='students') { renderEmployees(); refreshNewUID(); }
   if (name==='reports') { renderReport(); populateDateFilters(); populateReportDates(); }
 }
 
@@ -1573,8 +1593,58 @@ function recordAttendance(uid, name, section) {
   }
 }
 
-function lookupStudent(uid) {
-  return DB.students.find(s => s.id.toLowerCase() === uid.toLowerCase().trim());
+function lookupEmployee(uid) {
+  const key = uid.toLowerCase().trim();
+  // Match by Employee UID OR by linked NFC card UID
+  return DB.employees.find(s =>
+    s.id.toLowerCase() === key ||
+    (s.nfcUid && s.nfcUid.toLowerCase() === key)
+  );
+}
+
+// ── Assign NFC to employee ──
+let _assignNfcReader = null;
+let _assignNfcActive = false;
+
+async function startAssignNfc() {
+  if (_assignNfcActive) return;
+  if (!('NDEFReader' in window)) {
+    toast('NFC hindi available sa browser na ito.', 'error');
+    return;
+  }
+  _assignNfcActive = true;
+  const statusEl = document.getElementById('nfcAssignStatus');
+  const btn = document.getElementById('assignNfcBtn');
+  statusEl.textContent = '📡 Ilapat ang NFC card ngayon…';
+  statusEl.style.color = 'var(--primary-light)';
+  btn.style.background = 'rgba(108,99,255,0.3)';
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Scanning…';
+  try {
+    _assignNfcReader = new NDEFReader();
+    await _assignNfcReader.scan();
+    _assignNfcReader.addEventListener('reading', ({ serialNumber }) => {
+      const uid = serialNumber || '';
+      if (!uid) return;
+      document.getElementById('editNfcUid').value = uid;
+      statusEl.textContent = '✅ NFC card na-detect! I-save na para i-link.';
+      statusEl.style.color = 'var(--success)';
+      cancelAssignNfc();
+    });
+  } catch(e) {
+    statusEl.textContent = '❌ ' + e.message;
+    statusEl.style.color = 'var(--danger)';
+    cancelAssignNfc();
+  }
+}
+
+function cancelAssignNfc() {
+  _assignNfcActive = false;
+  _assignNfcReader = null;
+  const btn = document.getElementById('assignNfcBtn');
+  if (btn) {
+    btn.style.background = '';
+    btn.innerHTML = '<i class="fas fa-wifi"></i> I-scan';
+  }
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1629,9 +1699,9 @@ async function startScan() {
     toast('NFC active — ilapat na ang card!', 'info');
     nfcReader.addEventListener('reading', ({ serialNumber }) => {
       const uid = serialNumber || 'uid-' + Date.now();
-      const student = lookupStudent(uid);
-      const name = student ? student.name : 'Unknown';
-      const section = student ? student.section : '—';
+      const employee = lookupEmployee(uid);
+      const name = employee ? employee.name : 'Unknown';
+      const section = employee ? employee.section : '—';
       recordAttendance(uid, name, section);
     });
     nfcReader.addEventListener('readingerror', () => {
@@ -1660,9 +1730,9 @@ function openManualModal() {
 function confirmManual() {
   const val = document.getElementById('manualInput').value.trim();
   if (!val) return;
-  const student = lookupStudent(val);
-  const name = student ? student.name : val;
-  const section = student ? student.section : '—';
+  const employee = lookupEmployee(val);
+  const name = employee ? employee.name : val;
+  const section = employee ? employee.section : '—';
   recordAttendance(val, name, section);
   bootstrap.Modal.getInstance(document.getElementById('manualModal'))?.hide();
 }
@@ -1754,13 +1824,13 @@ function renderLog() {
     </div>`).join('');
 }
 
-function renderStudents() {
-  const q = (document.getElementById('studentSearch')?.value||'').toLowerCase();
-  let students = DB.students;
-  if (q) students = students.filter(s => s.name.toLowerCase().includes(q) || s.id.toLowerCase().includes(q) || (s.section||'').toLowerCase().includes(q) || (s.department||'').toLowerCase().includes(q));
-  document.getElementById('studentCount').textContent = DB.students.length;
-  const el = document.getElementById('studentList');
-  if (!students.length) {
+function renderEmployees() {
+  const q = (document.getElementById('employeeSearch')?.value||'').toLowerCase();
+  let employees = DB.employees;
+  if (q) employees = employees.filter(s => s.name.toLowerCase().includes(q) || s.id.toLowerCase().includes(q) || (s.section||'').toLowerCase().includes(q) || (s.department||'').toLowerCase().includes(q));
+  document.getElementById('employeeCount').textContent = DB.employees.length;
+  const el = document.getElementById('employeeList');
+  if (!employees.length) {
     el.innerHTML = `<div class="empty-state"><i class="fas fa-id-badge"></i><p>Walang registered employees.</p></div>`;
     return;
   }
@@ -1773,14 +1843,14 @@ function renderStudents() {
     'Seconded':    { bg:'rgba(255,71,87,0.13)',   color:'var(--danger)',         border:'rgba(255,71,87,0.3)' },
   };
 
-  el.innerHTML = students.map((s) => {
-    const realIdx = DB.students.findIndex(x => x.id === s.id);
+  el.innerHTML = employees.map((s) => {
+    const realIdx = DB.employees.findIndex(x => x.id === s.id);
     const et = empTypeStyles[s.empType||'Regular'] || empTypeStyles['Casual'];
     return `
-    <div class="student-card">
+    <div class="employee-card">
       <div class="avatar ${avatarColor(s.name)}">${initials(s.name)}</div>
-      <div class="student-info" style="min-width:0;">
-        <div class="student-name" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${s.name}</div>
+      <div class="employee-info" style="min-width:0;">
+        <div class="employee-name" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${s.name}</div>
         <div style="display:flex;align-items:center;gap:8px;margin-top:5px;flex-wrap:wrap;">
           <span style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:${et.bg};color:${et.color};border:1px solid ${et.border};white-space:nowrap;">${s.empType||'Regular'}</span>
           <span style="font-family:var(--font-mono);font-size:12px;color:var(--accent);font-weight:600;">${s.id}</span>
@@ -1790,7 +1860,7 @@ function renderStudents() {
         <button class="btn-outline-custom" onclick="openEdit(${realIdx})" style="padding:8px 12px;" title="I-edit">
           <i class="fas fa-pen" style="font-size:13px;"></i>
         </button>
-        <button class="btn-danger-custom" onclick="removeStudent(${realIdx})" style="padding:8px 12px;" title="Burahin">
+        <button class="btn-danger-custom" onclick="removeEmployee(${realIdx})" style="padding:8px 12px;" title="Burahin">
           <i class="fas fa-trash" style="font-size:13px;"></i>
         </button>
       </div>
@@ -1801,7 +1871,7 @@ function renderStudents() {
 function renderDashboard() {
   const todayStr = today();
   const todayLogs = DB.log.filter(r => r.date === todayStr);
-  const total = DB.students.length;
+  const total = DB.employees.length;
   const present = [...new Set(todayLogs.map(r => r.uid))].length;
   const absent = Math.max(0, total - present);
   const rate = total > 0 ? Math.round((present/total)*100) : 0;
@@ -1888,25 +1958,25 @@ function renderReport() {
       </tr>`).join('');
   }
 
-  // Summary per student
+  // Summary per employee
   const summEl = document.getElementById('summaryList');
-  const total = DB.students.length;
+  const total = DB.employees.length;
   if (!total) { summEl.innerHTML = `<div class="empty-state"><i class="fas fa-id-badge"></i><p>Walang registered employees.</p></div>`; return; }
 
   const allDates = [...new Set(DB.log.map(r=>r.date))];
   const totalDays = allDates.length || 1;
 
-  summEl.innerHTML = DB.students.map(s => {
+  summEl.innerHTML = DB.employees.map(s => {
     const count = [...new Set(DB.log.filter(r=>r.uid===s.id).map(r=>r.date))].length;
     const rate = Math.round((count/totalDays)*100);
     const rateClass = rate>=80?'rate-high':rate>=60?'rate-mid':'rate-low';
     const dept = s.department || s.section || '—';
     return `
-    <div class="student-card">
+    <div class="employee-card">
       <div class="avatar ${avatarColor(s.name)}">${initials(s.name)}</div>
-      <div class="student-info">
-        <div class="student-name">${s.name}</div>
-        <div class="student-dept">${dept}</div>
+      <div class="employee-info">
+        <div class="employee-name">${s.name}</div>
+        <div class="employee-dept">${dept}</div>
         <div class="att-progress ${rateClass}"><div class="att-progress-bar" style="width:${rate}%"></div></div>
         <div class="days-chip"><i class="fas fa-calendar-check"></i> ${count} / ${totalDays} days</div>
       </div>
@@ -1920,11 +1990,11 @@ function renderReport() {
   // Header stats
   const statsEl = document.getElementById('summaryHeaderStats');
   if (statsEl) {
-    const perfect = DB.students.filter(s => {
+    const perfect = DB.employees.filter(s => {
       const c = [...new Set(DB.log.filter(r=>r.uid===s.id).map(r=>r.date))].length;
       return c >= totalDays;
     }).length;
-    const atRisk = DB.students.filter(s => {
+    const atRisk = DB.employees.filter(s => {
       const c = [...new Set(DB.log.filter(r=>r.uid===s.id).map(r=>r.date))].length;
       return Math.round((c/totalDays)*100) < 60;
     }).length;
@@ -1956,10 +2026,10 @@ function populateReportDates() {
 //  EMPLOYEE UID GENERATOR
 // ═══════════════════════════════════════════════════════════
 function generateUID() {
-  const students = DB.students;
-  if (!students.length) return 'EM-000001';
+  const students = DB.employees;
+  if (!employees.length) return 'EM-000001';
   // Extract all numeric parts from existing UIDs
-  const nums = students.map(s => {
+  const nums = employees.map(s => {
     const m = s.id.match(/EM-(\d+)/);
     return m ? parseInt(m[1]) : 0;
   });
@@ -1969,34 +2039,34 @@ function generateUID() {
 
 // Auto-fill UID when employee page is shown
 function refreshNewUID() {
-  const el = document.getElementById('newStudentId');
+  const el = document.getElementById('newEmployeeId');
   if (el) el.value = generateUID();
 }
 
 // ═══════════════════════════════════════════════════════════
 //  EMPLOYEES CRUD
 // ═══════════════════════════════════════════════════════════
-function addStudent() {
+function addEmployee() {
   const name = document.getElementById('newName').value.trim();
   const position = document.getElementById('newPosition').value.trim();
   const department = document.getElementById('newDepartment').value.trim();
   const empType = document.getElementById('newEmpType').value;
   if (!name) { toast('Kailangan ng pangalan ng employee.', 'error'); return; }
   const id = generateUID();
-  const students = DB.students;
+  const students = DB.employees;
   students.push({ name, id, section: position, department, empType });
-  DB.students = students;
+  DB.employees = students;
   document.getElementById('newName').value = '';
   document.getElementById('newPosition').value = '';
   document.getElementById('newDepartment').value = '';
   document.getElementById('newEmpType').value = 'Regular';
-  document.getElementById('newStudentId').value = generateUID();
-  renderStudents();
+  document.getElementById('newEmployeeId').value = generateUID();
+  renderEmployees();
   toast(`${name} naidagdag na! (${id})`, 'success');
 }
 
-function removeStudent(i) {
-  const s = DB.students;
+function removeEmployee(i) {
+  const s = DB.employees;
   const emp = s[i];
   if (!emp) return;
   showConfirm({
@@ -2008,33 +2078,41 @@ function removeStudent(i) {
     okLabel: 'Burahin',
     okIcon: 'fa-trash',
     onConfirm: () => {
-      s.splice(i, 1); DB.students = s;
-      renderStudents();
+      s.splice(i, 1); DB.employees = s;
+      renderEmployees();
       toast('Employee removed.', 'info');
     }
   });
 }
 
 function openEdit(i) {
-  const s = DB.students[i];
+  const s = DB.employees[i];
   document.getElementById('editIdx').value = i;
   document.getElementById('editName').value = s.name;
   document.getElementById('editId').value = s.id;
   document.getElementById('editSection').value = s.section || '';
   document.getElementById('editDepartment').value = s.department || '';
   document.getElementById('editEmpType').value = s.empType || 'Regular';
+  document.getElementById('editNfcUid').value = s.nfcUid || '';
+  const statusEl = document.getElementById('nfcAssignStatus');
+  statusEl.textContent = s.nfcUid ? '✅ May nakalink na NFC card' : '';
+  statusEl.style.color = s.nfcUid ? 'var(--success)' : 'var(--text-muted)';
   new bootstrap.Modal(document.getElementById('editModal')).show();
 }
 function saveEdit() {
   const i = +document.getElementById('editIdx').value;
-  const s = DB.students;
+  const s = DB.employees;
   s[i].name = document.getElementById('editName').value.trim();
   s[i].id = document.getElementById('editId').value.trim();
   s[i].section = document.getElementById('editSection').value.trim();
   s[i].department = document.getElementById('editDepartment').value.trim();
   s[i].empType = document.getElementById('editEmpType').value;
-  DB.students = s;
-  renderStudents();
+  const newNfc = document.getElementById('editNfcUid').value.trim();
+  if (newNfc) s[i].nfcUid = newNfc;
+  else delete s[i].nfcUid;
+  DB.employees = s;
+  cancelAssignNfc();
+  renderEmployees();
   bootstrap.Modal.getInstance(document.getElementById('editModal'))?.hide();
   toast('Employee updated!', 'success');
 }
@@ -2051,20 +2129,20 @@ function importCSV() {
   if (!raw) return;
   const lines = raw.split('\n').map(l=>l.trim()).filter(Boolean);
   let added = 0;
-  const students = DB.students;
+  const students = DB.employees;
   lines.forEach(line => {
     if (line.toLowerCase().startsWith('name')) return; // skip header
     const parts = line.split(',').map(p=>p.trim());
     const [name, position, department, empType] = parts;
     if (name) {
-      const id = 'EM-' + String(students.length + 1).padStart(6, '0');
+      const id = 'EM-' + String(employees.length + 1).padStart(6, '0');
       students.push({ name, id, section: position||'—', department: department||'ENRO', empType: empType||'Regular' });
       added++;
     }
   });
-  DB.students = students;
-  renderStudents();
-  document.getElementById('newStudentId').value = generateUID();
+  DB.employees = students;
+  renderEmployees();
+  document.getElementById('newEmployeeId').value = generateUID();
   bootstrap.Modal.getInstance(document.getElementById('importModal'))?.hide();
   toast(`${added} employees imported!`, 'success');
 }
@@ -2111,7 +2189,7 @@ function clearAll() {
     okLabel: 'I-reset Lahat',
     okIcon: 'fa-rotate-left',
     onConfirm: () => {
-      localStorage.removeItem('att_students');
+      localStorage.removeItem('att_employees');
       localStorage.removeItem('att_log');
       localStorage.removeItem('att_settings');
       location.reload();
@@ -2148,7 +2226,7 @@ function seedDemo() {
 // Runs once, marks itself so it never runs again on subsequent loads.
 (function clearLegacyDemoData() {
   if (!localStorage.getItem('enro_wiped_v1')) {
-    localStorage.removeItem('att_students');
+    localStorage.removeItem('att_employees');
     localStorage.removeItem('att_log');
     // keep att_settings so user preferences survive
     localStorage.setItem('enro_wiped_v1', '1');
