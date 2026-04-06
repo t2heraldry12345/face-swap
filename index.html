@@ -1391,8 +1391,8 @@ html, body {
 //  DATA LAYER  (swap these functions for Firebase later)
 // ═══════════════════════════════════════════════════════════
 const DB = {
-  get students() { return JSON.parse(localStorage.getItem('att_employees') || '[]'); },
-  set students(v) { localStorage.setItem('att_employees', JSON.stringify(v)); },
+  get employees() { return JSON.parse(localStorage.getItem('att_employees') || '[]'); },
+  set employees(v) { localStorage.setItem('att_employees', JSON.stringify(v)); },
   get log() { return JSON.parse(localStorage.getItem('att_log') || '[]'); },
   set log(v) { localStorage.setItem('att_log', JSON.stringify(v)); },
   get settings() { return JSON.parse(localStorage.getItem('att_settings') || '{}'); },
@@ -1520,7 +1520,7 @@ function showPage(name, el) {
   if (name==='dashboard') renderDashboard();
   if (name==='log') { renderLog(); populateDateFilters(); }
   if (name==='scan') renderTodayScan();
-  if (name==='students') { renderEmployees(); refreshNewUID(); }
+  if (name==='employees') { renderEmployees(); refreshNewUID(); }
   if (name==='reports') { renderReport(); populateDateFilters(); populateReportDates(); }
 }
 
@@ -2026,7 +2026,7 @@ function populateReportDates() {
 //  EMPLOYEE UID GENERATOR
 // ═══════════════════════════════════════════════════════════
 function generateUID() {
-  const students = DB.employees;
+  const employees = DB.employees;
   if (!employees.length) return 'EM-000001';
   // Extract all numeric parts from existing UIDs
   const nums = employees.map(s => {
@@ -2053,9 +2053,9 @@ function addEmployee() {
   const empType = document.getElementById('newEmpType').value;
   if (!name) { toast('Kailangan ng pangalan ng employee.', 'error'); return; }
   const id = generateUID();
-  const students = DB.employees;
-  students.push({ name, id, section: position, department, empType });
-  DB.employees = students;
+  const employees = DB.employees;
+  employees.push({ name, id, section: position, department, empType });
+  DB.employees = employees;
   document.getElementById('newName').value = '';
   document.getElementById('newPosition').value = '';
   document.getElementById('newDepartment').value = '';
@@ -2129,18 +2129,18 @@ function importCSV() {
   if (!raw) return;
   const lines = raw.split('\n').map(l=>l.trim()).filter(Boolean);
   let added = 0;
-  const students = DB.employees;
+  const employees = DB.employees;
   lines.forEach(line => {
     if (line.toLowerCase().startsWith('name')) return; // skip header
     const parts = line.split(',').map(p=>p.trim());
     const [name, position, department, empType] = parts;
     if (name) {
       const id = 'EM-' + String(employees.length + 1).padStart(6, '0');
-      students.push({ name, id, section: position||'—', department: department||'ENRO', empType: empType||'Regular' });
+      employees.push({ name, id, section: position||'—', department: department||'ENRO', empType: empType||'Regular' });
       added++;
     }
   });
-  DB.employees = students;
+  DB.employees = employees;
   renderEmployees();
   document.getElementById('newEmployeeId').value = generateUID();
   bootstrap.Modal.getInstance(document.getElementById('importModal'))?.hide();
@@ -2225,11 +2225,10 @@ function seedDemo() {
 // One-time wipe: clear any old demo/hardcoded data left in localStorage.
 // Runs once, marks itself so it never runs again on subsequent loads.
 (function clearLegacyDemoData() {
-  if (!localStorage.getItem('enro_wiped_v1')) {
-    localStorage.removeItem('att_employees');
-    localStorage.removeItem('att_log');
-    // keep att_settings so user preferences survive
-    localStorage.setItem('enro_wiped_v1', '1');
+  if (!localStorage.getItem('enro_wiped_v2')) {
+    localStorage.removeItem('att_students'); // old key from previous version
+    // keep att_employees, att_log, att_settings so user data survives
+    localStorage.setItem('enro_wiped_v2', '1');
   }
 })();
 
