@@ -772,7 +772,7 @@ html, body {
 
 /* ── Responsive tweaks ── */
 @media (max-width: 576px) {
-  .main-content { padding: 14px 14px; }
+  .main-content { padding: 14px 14px calc(var(--bottom-nav-height) + 40px); }
   .glass-card { padding: 16px; }
   .page-heading { font-size: 20px; }
   .scan-ring { width: 170px; height: 170px; }
@@ -784,6 +784,130 @@ html, body {
 
 /* Report overflow */
 .table-responsive-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* ── Admin lock icon ── */
+.admin-lock-btn {
+  width: 34px; height: 34px;
+  background: rgba(108,99,255,0.12);
+  border: 1px solid rgba(108,99,255,0.25);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--text-muted);
+  font-size: 14px; transition: all 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.admin-lock-btn:hover { color: var(--primary-light); background: rgba(108,99,255,0.2); }
+.admin-lock-btn.unlocked { color: var(--accent); border-color: rgba(0,212,170,0.3); background: rgba(0,212,170,0.1); }
+
+/* ── Department filter pills ── */
+.dept-filter-wrap { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.dept-pill {
+  padding: 5px 14px; border-radius: 20px;
+  font-size: 12px; font-weight: 600;
+  background: var(--dark-card2); border: 1px solid var(--dark-border);
+  color: var(--text-muted); cursor: pointer; transition: all 0.2s;
+  white-space: nowrap; -webkit-tap-highlight-color: transparent;
+}
+.dept-pill:hover { border-color: var(--primary); color: var(--primary-light); }
+.dept-pill.active { background: rgba(108,99,255,0.15); border-color: var(--primary); color: var(--primary-light); }
+
+/* ── Avatar photo support ── */
+.avatar { overflow: hidden; }
+.avatar img { width: 100%; height: 100%; object-fit: cover; }
+.employee-card .emp-avatar { cursor: pointer; position: relative; overflow: hidden; }
+.employee-card .emp-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 14px; }
+.emp-avatar-overlay {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity 0.2s; border-radius: 14px;
+  font-size: 11px; color: white;
+}
+.employee-card .emp-avatar:hover .emp-avatar-overlay { opacity: 1; }
+
+/* ── PIN overlay ── */
+.pin-overlay {
+  position: fixed; inset: 0; z-index: 9000;
+  background: rgba(10,10,20,0.92); backdrop-filter: blur(16px);
+  display: flex; align-items: center; justify-content: center;
+}
+.pin-box {
+  background: var(--dark-card); border: 1px solid var(--dark-border);
+  border-radius: 24px; padding: 40px 32px;
+  width: 340px; max-width: 90vw; text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6), var(--shadow-glow);
+}
+.pin-icon {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: linear-gradient(135deg, rgba(108,99,255,0.2), rgba(0,212,170,0.2));
+  border: 2px solid rgba(108,99,255,0.3);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 20px; font-size: 28px; color: var(--primary-light);
+}
+.pin-title { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+.pin-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 28px; }
+.pin-dots { display: flex; justify-content: center; gap: 14px; margin-bottom: 28px; }
+.pin-dot {
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--dark-card2); border: 2px solid var(--dark-border);
+  transition: all 0.2s;
+}
+.pin-dot.filled { background: var(--primary); border-color: var(--primary); box-shadow: 0 0 10px rgba(108,99,255,0.5); }
+.pin-dot.error { background: var(--danger); border-color: var(--danger); animation: shake 0.4s ease; }
+.pin-keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+.pin-key {
+  height: 56px; border-radius: 14px;
+  background: var(--dark-card2); border: 1px solid var(--dark-border);
+  color: var(--text-primary); font-size: 20px; font-weight: 600;
+  cursor: pointer; transition: all 0.15s;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono); -webkit-tap-highlight-color: transparent; user-select: none;
+}
+.pin-key:hover { background: rgba(108,99,255,0.15); border-color: var(--primary); }
+.pin-key:active { transform: scale(0.93); background: rgba(108,99,255,0.25); }
+.pin-key.del { font-size: 16px; color: var(--text-muted); }
+.pin-key.del:hover { color: var(--danger); border-color: rgba(255,71,87,0.3); }
+.pin-key.zero { grid-column: 2; }
+.pin-error-msg { font-size: 13px; color: var(--danger); min-height: 20px; margin-top: 8px; }
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
+
+/* ── Employee Profile ── */
+.profile-header {
+  display: flex; align-items: center; gap: 20px;
+  padding-bottom: 20px; border-bottom: 1px solid var(--dark-border); margin-bottom: 20px;
+}
+.profile-photo {
+  width: 80px; height: 80px; border-radius: 22px;
+  overflow: hidden; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; font-weight: 700; position: relative; cursor: pointer;
+}
+.profile-photo img { width: 100%; height: 100%; object-fit: cover; }
+.profile-photo-overlay {
+  position: absolute; inset: 0; background: rgba(0,0,0,0.5);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity 0.2s; border-radius: 22px;
+  font-size: 13px; color: white; flex-direction: column; gap: 3px;
+}
+.profile-photo-overlay i { font-size: 18px; }
+.profile-photo:hover .profile-photo-overlay { opacity: 1; }
+.profile-name { font-size: 22px; font-weight: 700; color: var(--text-primary); }
+.profile-position { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+.profile-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+.profile-stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+.profile-stat-box {
+  background: var(--dark-card2); border: 1px solid var(--dark-border);
+  border-radius: 14px; padding: 14px; text-align: center;
+}
+.profile-stat-val { font-size: 24px; font-weight: 700; color: var(--primary-light); }
+.profile-stat-lbl { font-size: 11px; color: var(--text-muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.7px; }
+.att-hist-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(108,99,255,0.06); }
+.att-hist-item:last-child { border-bottom: none; }
+.att-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+/* ── Audit log ── */
+.audit-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(108,99,255,0.06); }
+.audit-item:last-child { border-bottom: none; }
 
 /* ── Danger Zone redesign ── */
 .danger-zone-box {
@@ -872,6 +996,9 @@ html, body {
     <div class="net-badge online" id="netBadge">
       <div class="net-dot"></div>
       <span id="netText">Online</span>
+    </div>
+    <div class="admin-lock-btn" id="adminLockBtn" onclick="toggleAdminLock()" title="Admin PIN">
+      <i class="fas fa-lock" id="adminLockIcon"></i>
     </div>
   </div>
 </div>
@@ -1015,9 +1142,14 @@ html, body {
             <option value="">Lahat ng araw</option>
           </select>
         </div>
-        <div class="col-6 col-sm-3">
+        <div class="col-3 col-sm-2">
           <button class="btn-outline-custom w-100 justify-content-center" onclick="exportCSV()">
-            <i class="fas fa-file-csv"></i> Export
+            <i class="fas fa-file-csv"></i> <span class="d-none d-sm-inline">Export</span>
+          </button>
+        </div>
+        <div class="col-3 col-sm-2">
+          <button class="btn-outline-custom w-100 justify-content-center" onclick="printAttendance()">
+            <i class="fas fa-print"></i> <span class="d-none d-sm-inline">Print</span>
           </button>
         </div>
       </div>
@@ -1073,13 +1205,15 @@ html, body {
 
     <!-- Employee list -->
     <div class="glass-card">
-      <div class="d-flex align-items-center justify-content-between mb-3">
+      <div class="d-flex align-items-center justify-content-between mb-2">
         <div class="section-title mb-0">Registered (<span id="employeeCount">0</span>)</div>
         <div class="search-box mb-0" style="width:180px;">
           <i class="fas fa-magnifying-glass"></i>
           <input type="text" class="form-control-dark" id="employeeSearch" placeholder="Hanapin…" oninput="renderEmployees()" style="font-size:13px; padding:8px 8px 8px 34px;">
         </div>
       </div>
+      <!-- Department filter pills -->
+      <div class="dept-filter-wrap" id="deptFilterWrap"></div>
       <div id="employeeList"></div>
     </div>
   </div>
@@ -1096,6 +1230,12 @@ html, body {
         </select>
         <button class="btn-accent-custom" onclick="exportCSV()">
           <i class="fas fa-download"></i> Export CSV
+        </button>
+        <button class="btn-outline-custom" onclick="exportEmpCSV()">
+          <i class="fas fa-user"></i> Per Employee
+        </button>
+        <button class="btn-outline-custom" onclick="printAttendance()">
+          <i class="fas fa-print"></i> Print
         </button>
       </div>
       <div class="table-responsive-wrap">
@@ -1148,6 +1288,18 @@ html, body {
         </div>
       </div>
 
+      <div class="settings-group-title">Admin Security</div>
+      <div class="settings-row">
+        <div class="settings-row-info">
+          <div class="label"><i class="fas fa-lock me-2" style="color:var(--primary)"></i>Admin PIN Lock</div>
+          <div class="sub">6-digit PIN para protektahan ang Settings at Danger Zone</div>
+        </div>
+        <div id="pinStatusBadge" style="font-size:12px;font-weight:600;padding:4px 12px;border-radius:20px;background:rgba(108,99,255,0.12);color:var(--primary-light);border:1px solid rgba(108,99,255,0.25);">🔒 Locked</div>
+      </div>
+      <div style="margin-top:10px;">
+        <button class="btn-outline-custom" onclick="openChangePinModal()"><i class="fas fa-key"></i> Baguhin ang PIN</button>
+      </div>
+
       <div class="settings-group-title">Firebase (para sa online sync)</div>
       <div class="row g-2">
         <div class="col-12">
@@ -1197,10 +1349,34 @@ html, body {
           <span class="toggle-slider"></span>
         </label>
       </div>
+      <div class="settings-row">
+        <div class="settings-row-info">
+          <div class="label">Daily Summary Notification</div>
+          <div class="sub">End-of-day recap ng present/absent (5PM, browser notification)</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="togDailyNotif" onchange="saveSetting('dailyNotif', this.checked); toggleDailyNotif(this.checked)">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div class="settings-row">
+        <div class="settings-row-info">
+          <div class="label">Auto-remind kung hindi pa nag-scan</div>
+          <div class="sub">Mag-alert kung may employee na absent by 9AM</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="togAutoRemind" onchange="saveSetting('autoRemind', this.checked); toggleAutoRemind(this.checked)">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <div class="settings-group-title">Audit Log</div>
+      <div id="auditLogList" style="max-height:220px;overflow-y:auto;"></div>
+      <button class="btn-outline-custom mt-2" onclick="clearAuditLog()" style="font-size:12px;"><i class="fas fa-eraser"></i> I-clear ang Audit Log</button>
 
       <div class="settings-group-title">Danger Zone</div>
       <div class="danger-zone-box">
-        <button class="danger-btn-clear" onclick="clearLog()">
+        <button class="danger-btn-clear" onclick="requireAdmin(clearLog)">
           <div class="danger-btn-icon"><i class="fas fa-trash-can"></i></div>
           <div class="danger-btn-text">
             <span class="danger-btn-label">Clear Attendance Log</span>
@@ -1209,7 +1385,7 @@ html, body {
           <i class="fas fa-chevron-right danger-btn-arrow"></i>
         </button>
         <div class="danger-divider"></div>
-        <button class="danger-btn-reset" onclick="clearAll()">
+        <button class="danger-btn-reset" onclick="requireAdmin(clearAll)">
           <div class="danger-btn-icon danger-btn-icon-reset"><i class="fas fa-rotate-left"></i></div>
           <div class="danger-btn-text">
             <span class="danger-btn-label">Reset Everything</span>
@@ -1330,6 +1506,19 @@ html, body {
       </div>
       <div class="modal-body" style="max-height:75vh;overflow-y:auto;">
         <input type="hidden" id="editIdx">
+
+        <!-- Photo Upload -->
+        <div style="display:flex;justify-content:center;margin-bottom:18px;">
+          <div style="position:relative;width:80px;height:80px;cursor:pointer;" onclick="document.getElementById('photoFileInput').click()">
+            <div id="editPhotoPreview" style="width:80px;height:80px;border-radius:20px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;background:rgba(108,99,255,0.15);border:2px dashed rgba(108,99,255,0.4);">
+              <span id="editPhotoInitials"></span>
+            </div>
+            <div style="position:absolute;bottom:-4px;right:-4px;width:26px;height:26px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:11px;color:white;border:2px solid var(--dark-card);">
+              <i class="fas fa-camera"></i>
+            </div>
+          </div>
+          <input type="file" id="photoFileInput" accept="image/*" style="display:none;" onchange="handlePhotoUpload(event)">
+        </div>
 
         <label class="form-label-dark">Pangalan</label>
         <input type="text" class="form-control-dark mb-3" id="editName">
@@ -1470,6 +1659,67 @@ html, body {
           </button>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ADMIN PIN OVERLAY ══ -->
+<div class="pin-overlay" id="pinOverlay" style="display:none;">
+  <div class="pin-box">
+    <div class="pin-icon"><i class="fas fa-shield-halved"></i></div>
+    <div class="pin-title" id="pinOverlayTitle">Admin Access</div>
+    <div class="pin-sub" id="pinOverlaySub">Ilagay ang 6-digit Admin PIN</div>
+    <div class="pin-dots" id="pinDots">
+      <div class="pin-dot" id="pd0"></div><div class="pin-dot" id="pd1"></div>
+      <div class="pin-dot" id="pd2"></div><div class="pin-dot" id="pd3"></div>
+      <div class="pin-dot" id="pd4"></div><div class="pin-dot" id="pd5"></div>
+    </div>
+    <div class="pin-keypad">
+      <div class="pin-key" onclick="pinPress('1')">1</div><div class="pin-key" onclick="pinPress('2')">2</div><div class="pin-key" onclick="pinPress('3')">3</div>
+      <div class="pin-key" onclick="pinPress('4')">4</div><div class="pin-key" onclick="pinPress('5')">5</div><div class="pin-key" onclick="pinPress('6')">6</div>
+      <div class="pin-key" onclick="pinPress('7')">7</div><div class="pin-key" onclick="pinPress('8')">8</div><div class="pin-key" onclick="pinPress('9')">9</div>
+      <div class="pin-key del" onclick="pinPress('cancel')"><i class="fas fa-xmark"></i></div>
+      <div class="pin-key zero" onclick="pinPress('0')">0</div>
+      <div class="pin-key del" onclick="pinPress('del')"><i class="fas fa-delete-left"></i></div>
+    </div>
+    <div class="pin-error-msg" id="pinErrorMsg"></div>
+  </div>
+</div>
+
+<!-- ══ CHANGE PIN OVERLAY ══ -->
+<div class="pin-overlay" id="changePinOverlay" style="display:none;">
+  <div class="pin-box">
+    <div class="pin-icon" style="background:linear-gradient(135deg,rgba(0,212,170,0.2),rgba(108,99,255,0.2));border-color:rgba(0,212,170,0.3);">
+      <i class="fas fa-key" style="color:var(--accent)"></i>
+    </div>
+    <div class="pin-title" id="changePinTitle">Baguhin ang PIN</div>
+    <div class="pin-sub" id="changePinSub">Ilagay ang kasalukuyang PIN</div>
+    <div class="pin-dots" id="changePinDots">
+      <div class="pin-dot" id="cpd0"></div><div class="pin-dot" id="cpd1"></div>
+      <div class="pin-dot" id="cpd2"></div><div class="pin-dot" id="cpd3"></div>
+      <div class="pin-dot" id="cpd4"></div><div class="pin-dot" id="cpd5"></div>
+    </div>
+    <div class="pin-keypad">
+      <div class="pin-key" onclick="changePinPress('1')">1</div><div class="pin-key" onclick="changePinPress('2')">2</div><div class="pin-key" onclick="changePinPress('3')">3</div>
+      <div class="pin-key" onclick="changePinPress('4')">4</div><div class="pin-key" onclick="changePinPress('5')">5</div><div class="pin-key" onclick="changePinPress('6')">6</div>
+      <div class="pin-key" onclick="changePinPress('7')">7</div><div class="pin-key" onclick="changePinPress('8')">8</div><div class="pin-key" onclick="changePinPress('9')">9</div>
+      <div class="pin-key del" onclick="changePinPress('cancel')"><i class="fas fa-xmark"></i></div>
+      <div class="pin-key zero" onclick="changePinPress('0')">0</div>
+      <div class="pin-key del" onclick="changePinPress('del')"><i class="fas fa-delete-left"></i></div>
+    </div>
+    <div class="pin-error-msg" id="changePinErrorMsg"></div>
+  </div>
+</div>
+
+<!-- ══ EMPLOYEE PROFILE MODAL ══ -->
+<div class="modal fade modal-dark" id="profileModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="fas fa-id-card me-2" style="color:var(--accent)"></i>Employee Profile</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="profileModalBody" style="max-height:80vh;overflow-y:auto;"></div>
     </div>
   </div>
 </div>
@@ -2214,8 +2464,15 @@ function renderNfcHistory(s) {
   const section = document.getElementById('nfcHistorySection');
   const list = document.getElementById('nfcHistoryList');
   const history = s.nfcHistory || [];
-  if (!history.length) { section.style.display = 'none'; return; }
   section.style.display = 'block';
+  if (!history.length) {
+    list.innerHTML = `
+    <div style="text-align:center;padding:14px 10px;color:var(--text-muted);font-size:12px;">
+      <i class="fas fa-clock-rotate-left" style="font-size:20px;opacity:0.25;display:block;margin-bottom:6px;"></i>
+      Wala pang card history
+    </div>`;
+    return;
+  }
   list.innerHTML = history.slice().reverse().map(h => {
     const actionColor = h.action === 'deactivated' ? 'var(--danger)' : h.action === 'replaced' ? 'var(--warning)' : 'var(--success)';
     const actionIcon = h.action === 'deactivated' ? 'fa-ban' : h.action === 'replaced' ? 'fa-arrow-right-arrow-left' : 'fa-link';
@@ -2415,17 +2672,626 @@ function loadSettings() {
   if (s.allowDuplicate !== undefined) document.getElementById('togDuplicate').checked = s.allowDuplicate;
 }
 
-// No demo data — start empty
-function seedDemo() {
-  // intentionally empty
+// ═══════════════════════════════════════════════════════════
+//  ADMIN PIN SYSTEM
+// ═══════════════════════════════════════════════════════════
+const ADMIN_PIN_DEFAULT = '092017';
+let adminUnlocked = false;
+let pinBuffer = '';
+let pinCallback = null;
+let changePinStep = 0;
+let changePinNew = '';
+let changePinBuffer = '';
+
+function getStoredPin() { return localStorage.getItem('att_admin_pin') || ADMIN_PIN_DEFAULT; }
+function setStoredPin(pin) { localStorage.setItem('att_admin_pin', pin); }
+
+function updateAdminUI() {
+  const btn = document.getElementById('adminLockBtn');
+  const icon = document.getElementById('adminLockIcon');
+  if (!btn) return;
+  if (adminUnlocked) {
+    btn.classList.add('unlocked');
+    icon.className = 'fas fa-lock-open';
+    btn.title = 'Admin Unlocked — click to lock';
+  } else {
+    btn.classList.remove('unlocked');
+    icon.className = 'fas fa-lock';
+    btn.title = 'Admin PIN — click to unlock';
+  }
+  const badge = document.getElementById('pinStatusBadge');
+  if (badge) {
+    if (adminUnlocked) {
+      badge.textContent = '🔓 Unlocked';
+      badge.style.cssText = 'font-size:12px;font-weight:600;padding:4px 12px;border-radius:20px;background:rgba(0,212,170,0.12);color:var(--accent);border:1px solid rgba(0,212,170,0.25);';
+    } else {
+      badge.textContent = '🔒 Locked';
+      badge.style.cssText = 'font-size:12px;font-weight:600;padding:4px 12px;border-radius:20px;background:rgba(108,99,255,0.12);color:var(--primary-light);border:1px solid rgba(108,99,255,0.25);';
+    }
+  }
 }
 
-// One-time wipe: clear any old demo/hardcoded data left in localStorage.
-// Runs once, marks itself so it never runs again on subsequent loads.
+function toggleAdminLock() {
+  if (adminUnlocked) {
+    adminUnlocked = false;
+    updateAdminUI();
+    addAudit('Admin locked manually.');
+    toast('Admin locked.', 'info');
+  } else {
+    openPinOverlay(null, 'Admin Access', 'Ilagay ang 6-digit Admin PIN');
+  }
+}
+
+function requireAdmin(callback) {
+  if (adminUnlocked) { callback(); return; }
+  openPinOverlay(callback, 'Admin Required', 'Ang action na ito ay nangangailangan ng Admin PIN');
+}
+
+function openPinOverlay(callback, title='Admin Access', sub='Ilagay ang 6-digit Admin PIN') {
+  pinBuffer = '';
+  pinCallback = callback;
+  document.getElementById('pinOverlayTitle').textContent = title;
+  document.getElementById('pinOverlaySub').textContent = sub;
+  document.getElementById('pinErrorMsg').textContent = '';
+  updatePinDots('pd', 0, false);
+  document.getElementById('pinOverlay').style.display = 'flex';
+}
+
+function closePinOverlay() {
+  document.getElementById('pinOverlay').style.display = 'none';
+  pinBuffer = ''; pinCallback = null;
+}
+
+function updatePinDots(prefix, count, error) {
+  for (let i = 0; i < 6; i++) {
+    const dot = document.getElementById(prefix + i);
+    if (!dot) continue;
+    dot.classList.remove('filled', 'error');
+    if (error) dot.classList.add('error');
+    else if (i < count) dot.classList.add('filled');
+  }
+}
+
+function pinPress(key) {
+  const errEl = document.getElementById('pinErrorMsg');
+  if (key === 'cancel') { closePinOverlay(); return; }
+  if (key === 'del') { pinBuffer = pinBuffer.slice(0,-1); updatePinDots('pd', pinBuffer.length, false); errEl.textContent=''; return; }
+  if (pinBuffer.length >= 6) return;
+  pinBuffer += key;
+  updatePinDots('pd', pinBuffer.length, false);
+  if (pinBuffer.length === 6) {
+    setTimeout(() => {
+      if (pinBuffer === getStoredPin()) {
+        adminUnlocked = true;
+        updateAdminUI();
+        closePinOverlay();
+        addAudit('Admin unlocked via PIN.');
+        toast('Admin unlocked!', 'success');
+        if (pinCallback) { pinCallback(); pinCallback = null; }
+      } else {
+        updatePinDots('pd', 6, true);
+        errEl.textContent = 'Mali ang PIN. Subukan ulit.';
+        setTimeout(() => { pinBuffer = ''; updatePinDots('pd', 0, false); errEl.textContent=''; }, 1200);
+      }
+    }, 150);
+  }
+}
+
+function openChangePinModal() {
+  changePinStep = 0; changePinNew = ''; changePinBuffer = '';
+  document.getElementById('changePinTitle').textContent = 'Baguhin ang PIN';
+  document.getElementById('changePinSub').textContent = 'Ilagay ang kasalukuyang PIN';
+  document.getElementById('changePinErrorMsg').textContent = '';
+  updatePinDots('cpd', 0, false);
+  document.getElementById('changePinOverlay').style.display = 'flex';
+}
+
+function changePinPress(key) {
+  const errEl = document.getElementById('changePinErrorMsg');
+  if (key === 'cancel') { document.getElementById('changePinOverlay').style.display = 'none'; return; }
+  if (key === 'del') { changePinBuffer = changePinBuffer.slice(0,-1); updatePinDots('cpd', changePinBuffer.length, false); errEl.textContent=''; return; }
+  if (changePinBuffer.length >= 6) return;
+  changePinBuffer += key;
+  updatePinDots('cpd', changePinBuffer.length, false);
+  if (changePinBuffer.length === 6) {
+    setTimeout(() => {
+      if (changePinStep === 0) {
+        if (changePinBuffer === getStoredPin()) {
+          changePinStep = 1; changePinBuffer = '';
+          document.getElementById('changePinSub').textContent = 'Ilagay ang bagong 6-digit PIN';
+          updatePinDots('cpd', 0, false); errEl.textContent = '';
+        } else {
+          updatePinDots('cpd', 6, true);
+          errEl.textContent = 'Mali ang kasalukuyang PIN.';
+          setTimeout(() => { changePinBuffer=''; updatePinDots('cpd', 0, false); errEl.textContent=''; }, 1200);
+        }
+      } else if (changePinStep === 1) {
+        changePinNew = changePinBuffer; changePinBuffer = '';
+        changePinStep = 2;
+        document.getElementById('changePinSub').textContent = 'Ulitin ang bagong PIN para kumpirmahin';
+        updatePinDots('cpd', 0, false); errEl.textContent = '';
+      } else if (changePinStep === 2) {
+        if (changePinBuffer === changePinNew) {
+          setStoredPin(changePinNew);
+          document.getElementById('changePinOverlay').style.display = 'none';
+          addAudit('Admin PIN changed.');
+          toast('PIN na-update!', 'success');
+        } else {
+          updatePinDots('cpd', 6, true);
+          errEl.textContent = 'Hindi magkapareho. Subukan ulit.';
+          setTimeout(() => { changePinBuffer=''; changePinStep=1; changePinNew=''; document.getElementById('changePinSub').textContent='Ilagay ang bagong 6-digit PIN'; updatePinDots('cpd', 0, false); errEl.textContent=''; }, 1400);
+        }
+      }
+    }, 150);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  AUDIT LOG
+// ═══════════════════════════════════════════════════════════
+const DB_audit = {
+  get() { return JSON.parse(localStorage.getItem('att_audit') || '[]'); },
+  set(v) { localStorage.setItem('att_audit', JSON.stringify(v)); }
+};
+
+function addAudit(action, detail='') {
+  const log = DB_audit.get();
+  log.unshift({ time: new Date().toLocaleString('en-PH'), action, detail });
+  if (log.length > 100) log.length = 100;
+  DB_audit.set(log);
+  renderAuditLog();
+}
+
+function renderAuditLog() {
+  const el = document.getElementById('auditLogList');
+  if (!el) return;
+  const log = DB_audit.get();
+  if (!log.length) {
+    el.innerHTML = '<div style="font-size:12px;color:var(--text-muted);padding:12px 0;text-align:center;">Walang audit records.</div>';
+    return;
+  }
+  el.innerHTML = log.slice(0,20).map(a => `
+    <div class="audit-item">
+      <div style="padding-top:4px;"><div style="width:8px;height:8px;border-radius:50%;background:var(--primary-light);flex-shrink:0;"></div></div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:13px;color:var(--text-primary);font-weight:500;">${a.action}</div>
+        ${a.detail ? `<div style="font-size:11px;color:var(--text-muted);">${a.detail}</div>` : ''}
+        <div style="font-size:11px;color:var(--text-muted);font-family:var(--font-mono);margin-top:2px;">${a.time}</div>
+      </div>
+    </div>`).join('');
+}
+
+function clearAuditLog() {
+  DB_audit.set([]);
+  renderAuditLog();
+  toast('Audit log cleared.', 'info');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  NOTIFICATIONS
+// ═══════════════════════════════════════════════════════════
+let dailyNotifInterval = null;
+let autoRemindInterval = null;
+
+function toggleDailyNotif(enabled) {
+  clearInterval(dailyNotifInterval);
+  if (!enabled) return;
+  if (Notification && Notification.permission === 'default') {
+    Notification.requestPermission().then(p => { if (p !== 'granted') toast('Hindi pinayagan ang notifications.', 'warning'); });
+  }
+  dailyNotifInterval = setInterval(() => {
+    const now = new Date();
+    if (now.getHours() === 17 && now.getMinutes() === 0) sendDailySummaryNotif();
+  }, 60000);
+  toast('Daily summary notification na-enable.', 'info');
+}
+
+function sendDailySummaryNotif() {
+  if (!Notification || Notification.permission !== 'granted') return;
+  const todayStr = today();
+  const todayLogs = DB.log.filter(r => r.date === todayStr);
+  const total = DB.employees.length;
+  const present = [...new Set(todayLogs.map(r => r.uid))].length;
+  const absent = Math.max(0, total - present);
+  new Notification('ENRO Attendance – Daily Summary', {
+    body: `Present: ${present} | Absent: ${absent} | Total: ${total}`
+  });
+}
+
+function toggleAutoRemind(enabled) {
+  clearInterval(autoRemindInterval);
+  if (!enabled) return;
+  if (Notification && Notification.permission === 'default') Notification.requestPermission();
+  autoRemindInterval = setInterval(() => {
+    const now = new Date();
+    if (now.getHours() === 9 && now.getMinutes() === 0) checkAbsentAndNotify();
+  }, 60000);
+  toast('Auto-remind na-enable.', 'info');
+}
+
+function checkAbsentAndNotify() {
+  if (!Notification || Notification.permission !== 'granted') return;
+  const todayStr = today();
+  const scanned = new Set(DB.log.filter(r => r.date === todayStr).map(r => r.uid));
+  const absent = DB.employees.filter(e => !scanned.has(e.id));
+  if (!absent.length) return;
+  new Notification(`${absent.length} empleyado hindi pa nag-scan!`, {
+    body: absent.slice(0,3).map(e=>e.name).join(', ') + (absent.length>3 ? ` at ${absent.length-3} pa...` : '')
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
+//  PHOTO UPLOAD
+// ═══════════════════════════════════════════════════════════
+let editPhotoData = null;
+
+function handlePhotoUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  if (!file.type.startsWith('image/')) { toast('PNG, JPG, o WEBP lang ang pwede.', 'error'); return; }
+  if (file.size > 2 * 1024 * 1024) { toast('Ang laki ng photo ay max 2MB.', 'error'); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    editPhotoData = e.target.result;
+    const preview = document.getElementById('editPhotoPreview');
+    preview.innerHTML = `<img src="${editPhotoData}" alt="photo" style="width:80px;height:80px;object-fit:cover;border-radius:20px;">`;
+  };
+  reader.readAsDataURL(file);
+}
+
+// ═══════════════════════════════════════════════════════════
+//  EMPLOYEE PROFILE VIEW
+// ═══════════════════════════════════════════════════════════
+function avatarHtml(emp, size=42, radius=12) {
+  const szStyle = `width:${size}px;height:${size}px;border-radius:${radius}px;flex-shrink:0;`;
+  const colorClass = avatarColor(emp.name);
+  if (emp.photo) {
+    return `<div class="avatar ${colorClass}" style="${szStyle}"><img src="${emp.photo}" alt="${emp.name}" style="width:100%;height:100%;object-fit:cover;border-radius:${radius}px;"></div>`;
+  }
+  return `<div class="avatar ${colorClass}" style="${szStyle}">${initials(emp.name)}</div>`;
+}
+
+function openProfile(empId) {
+  const emp = DB.employees.find(e => e.id === empId);
+  if (!emp) return;
+  const logs = DB.log.filter(r => r.uid === emp.id || (emp.nfcUid && r.uid === emp.nfcUid));
+  const allDates = [...new Set(DB.log.map(r => r.date))];
+  const daysPresent = [...new Set(logs.map(r => r.date))].length;
+  const totalDays = allDates.length || 1;
+  const rate = Math.round((daysPresent / totalDays) * 100);
+  const rateClass = rate>=80?'rate-high':rate>=60?'rate-mid':'rate-low';
+  const empTypeColors = { 'Regular':'rgba(46,213,115,0.15)', 'Casual':'rgba(108,99,255,0.15)', 'Job Order':'rgba(255,165,2,0.15)', 'Contractual':'rgba(0,212,170,0.15)', 'Seconded':'rgba(255,71,87,0.15)' };
+  const etBg = empTypeColors[emp.empType||'Regular'] || empTypeColors['Casual'];
+  const recentLogs = logs.slice(0, 20);
+  const photoEl = emp.photo
+    ? `<div class="profile-photo"><img src="${emp.photo}" alt="${emp.name}"><div class="profile-photo-overlay"><i class="fas fa-eye"></i></div></div>`
+    : `<div class="profile-photo ${avatarColor(emp.name)}" style="font-size:28px;font-weight:700;background:rgba(108,99,255,0.15);">${initials(emp.name)}</div>`;
+
+  document.getElementById('profileModalBody').innerHTML = `
+    <div class="profile-header">
+      <div onclick="openEditFromProfile('${emp.id}')" style="cursor:pointer;">${photoEl}</div>
+      <div>
+        <div class="profile-name">${emp.name}</div>
+        <div class="profile-position">${emp.section || '—'}${emp.department ? ' · ' + emp.department : ''}</div>
+        <div class="profile-badges">
+          <span style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:${etBg};color:var(--text-primary);border:1px solid var(--dark-border);">${emp.empType||'Regular'}</span>
+          <span style="font-size:11px;font-family:var(--font-mono);font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(0,212,170,0.1);color:var(--accent);border:1px solid rgba(0,212,170,0.2);">${emp.id}</span>
+          ${emp.nfcUid ? `<span style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(108,99,255,0.12);color:var(--primary-light);border:1px solid rgba(108,99,255,0.2);"><i class="fas fa-wifi me-1" style="font-size:9px;"></i>NFC</span>` : ''}
+        </div>
+      </div>
+    </div>
+    <div class="profile-stats-grid">
+      <div class="profile-stat-box"><div class="profile-stat-val">${daysPresent}</div><div class="profile-stat-lbl">Days Present</div></div>
+      <div class="profile-stat-box"><div class="profile-stat-val" style="color:var(--danger);">${Math.max(0, totalDays - daysPresent)}</div><div class="profile-stat-lbl">Days Absent</div></div>
+      <div class="profile-stat-box"><div class="profile-stat-val ${rateClass}">${rate}%</div><div class="profile-stat-lbl">Rate</div></div>
+    </div>
+    <div class="att-progress ${rateClass}" style="height:8px;margin-bottom:16px;border-radius:10px;">
+      <div class="att-progress-bar" style="width:${rate}%;height:100%;"></div>
+    </div>
+    <div class="section-title">Attendance History</div>
+    ${recentLogs.length ? recentLogs.map(r => `
+      <div class="att-hist-item">
+        <div class="att-dot" style="background:${r.type==='OUT'?'var(--danger)':'var(--success)'};"></div>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:600;color:var(--text-primary);">${r.date} <span style="font-weight:400;color:var(--text-muted);">at ${r.time}</span></div>
+        </div>
+        <span class="badge-${r.type==='OUT'?'out':'in'}">${r.type||'IN'}</span>
+      </div>`).join('') : '<div class="empty-state"><i class="fas fa-calendar"></i><p>Wala pang attendance records.</p></div>'}
+    <div class="d-flex gap-2 mt-4">
+      <button class="btn-outline-custom" onclick="exportEmployeeCSV('${emp.id}')"><i class="fas fa-file-csv"></i> Export CSV</button>
+      <button class="btn-outline-custom" onclick="printEmployeeRecord('${emp.id}')"><i class="fas fa-print"></i> Print</button>
+      <button class="btn-outline-custom" onclick="openEditFromProfile('${emp.id}')"><i class="fas fa-pen"></i> Edit</button>
+    </div>`;
+  new bootstrap.Modal(document.getElementById('profileModal')).show();
+}
+
+function openEditFromProfile(empId) {
+  bootstrap.Modal.getInstance(document.getElementById('profileModal'))?.hide();
+  const idx = DB.employees.findIndex(e => e.id === empId);
+  if (idx >= 0) setTimeout(() => openEdit(idx), 300);
+}
+
+// ═══════════════════════════════════════════════════════════
+//  DEPARTMENT FILTER
+// ═══════════════════════════════════════════════════════════
+let activeDeptFilter = '';
+
+function renderDeptFilters() {
+  const wrap = document.getElementById('deptFilterWrap');
+  if (!wrap) return;
+  const depts = [...new Set(DB.employees.map(e => e.department || 'ENRO').filter(Boolean))];
+  if (!depts.length) { wrap.innerHTML=''; return; }
+  wrap.innerHTML = ['All', ...depts].map(d => `
+    <div class="dept-pill ${(d==='All' && !activeDeptFilter) || d===activeDeptFilter ? 'active' : ''}"
+         onclick="setDeptFilter('${d}')">${d}</div>`).join('');
+}
+
+function setDeptFilter(dept) {
+  activeDeptFilter = dept === 'All' ? '' : dept;
+  renderDeptFilters();
+  renderEmployees();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  PRINT FUNCTIONS
+// ═══════════════════════════════════════════════════════════
+function printAttendance() {
+  const className = getSetting('className','ENRO');
+  const schoolName = getSetting('schoolName','');
+  const teacher = getSetting('teacher','');
+  const dateF = document.getElementById('logFilterDate')?.value || document.getElementById('reportDate')?.value || '';
+  let records = DB.log;
+  if (dateF) records = records.filter(r => r.date === dateF);
+  const w = window.open('', '_blank', 'width=900,height=700');
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Attendance – ${className}</title>
+    <style>body{font-family:Arial,sans-serif;font-size:12px;color:#111;margin:24px;}h2{font-size:18px;margin-bottom:4px;}.sub{font-size:12px;color:#555;margin-bottom:12px;}table{width:100%;border-collapse:collapse;margin-top:10px;}th{background:#eee;padding:8px 10px;text-align:left;font-size:11px;text-transform:uppercase;border:1px solid #ccc;}td{padding:8px 10px;border:1px solid #ccc;}tr:nth-child(even)td{background:#f9f9f9;}.in{background:#d4f7e5;color:#1a7a47;font-weight:bold;padding:2px 8px;border-radius:8px;}.out{background:#fde8ea;color:#c0392b;font-weight:bold;padding:2px 8px;border-radius:8px;}</style>
+    </head><body>
+    <h2>${className}</h2>
+    <div class="sub">${schoolName ? schoolName+' · ' : ''}${teacher ? 'OIC: '+teacher+' · ' : ''}Printed: ${new Date().toLocaleString('en-PH')}</div>
+    ${dateF ? `<div class="sub">Date: <strong>${dateF}</strong></div>` : '<div class="sub">All Records</div>'}
+    <table><thead><tr><th>#</th><th>Name</th><th>UID</th><th>Department</th><th>Date</th><th>Time</th><th>Type</th></tr></thead>
+    <tbody>${records.map((r,i)=>`<tr><td>${i+1}</td><td>${r.name}</td><td>${r.uid}</td><td>${r.section||'—'}</td><td>${r.date}</td><td>${r.time}</td><td><span class="${r.type==='OUT'?'out':'in'}">${r.type||'IN'}</span></td></tr>`).join('')}</tbody></table>
+    <script>window.onload=()=>window.print();<\/script></body></html>`);
+  w.document.close();
+  addAudit('Attendance sheet printed.', dateF ? `Date: ${dateF}` : 'All records');
+}
+
+function printEmployeeRecord(empId) {
+  const emp = DB.employees.find(e => e.id === empId);
+  if (!emp) return;
+  const logs = DB.log.filter(r => r.uid === emp.id || (emp.nfcUid && r.uid === emp.nfcUid));
+  const w = window.open('', '_blank', 'width=800,height=600');
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${emp.name} – Attendance</title>
+    <style>body{font-family:Arial,sans-serif;font-size:12px;color:#111;margin:24px;}h2{font-size:16px;}table{width:100%;border-collapse:collapse;margin-top:12px;}th{background:#eee;padding:7px 10px;text-align:left;font-size:11px;text-transform:uppercase;border:1px solid #ccc;}td{padding:7px 10px;border:1px solid #ccc;}</style></head><body>
+    <h2>${emp.name}</h2>
+    <p>${emp.section||'—'} · ${emp.department||'ENRO'} · ${emp.empType||'Regular'} · ${emp.id}</p>
+    <table><thead><tr><th>#</th><th>Date</th><th>Time</th><th>Type</th></tr></thead>
+    <tbody>${logs.map((r,i)=>`<tr><td>${i+1}</td><td>${r.date}</td><td>${r.time}</td><td>${r.type||'IN'}</td></tr>`).join('')}</tbody></table>
+    <script>window.onload=()=>window.print();<\/script></body></html>`);
+  w.document.close();
+  addAudit('Employee record printed.', `${emp.name} (${emp.id})`);
+}
+
+// ═══════════════════════════════════════════════════════════
+//  EXPORT FUNCTIONS (additions)
+// ═══════════════════════════════════════════════════════════
+function exportEmpCSV() {
+  if (!DB.employees.length) { toast('Walang employees.', 'warning'); return; }
+  const allDates = [...new Set(DB.log.map(r => r.date))];
+  const totalDays = allDates.length || 1;
+  const header = 'Name,UID,Position,Department,Type,Days Present,Days Absent,Attendance Rate';
+  const rows = DB.employees.map(s => {
+    const count = [...new Set(DB.log.filter(r => r.uid===s.id || (s.nfcUid && r.uid===s.nfcUid)).map(r=>r.date))].length;
+    const absent = Math.max(0, totalDays - count);
+    const rate = Math.round((count/totalDays)*100);
+    return `"${s.name}","${s.id}","${s.section||''}","${s.department||''}","${s.empType||'Regular'}","${count}","${absent}","${rate}%"`;
+  });
+  const csv = [header, ...rows].join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = `enro_employee_summary_${today().replace(/\//g,'-')}.csv`;
+  a.click();
+  toast('Employee summary exported!', 'success');
+  addAudit('Employee summary CSV exported.');
+}
+
+function exportEmployeeCSV(empId) {
+  const emp = DB.employees.find(e => e.id === empId);
+  if (!emp) return;
+  const logs = DB.log.filter(r => r.uid === emp.id || (emp.nfcUid && r.uid === emp.nfcUid));
+  const header = 'Date,Time,Type,Synced';
+  const rows = logs.map(r => `"${r.date}","${r.time}","${r.type||'IN'}","${r.synced}"`);
+  const csv = [header, ...rows].join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = `${emp.name.replace(/\s+/g,'_')}_attendance.csv`;
+  a.click();
+  toast(`${emp.name} CSV exported!`, 'success');
+  addAudit('Individual CSV exported.', emp.name);
+}
+
+// ═══════════════════════════════════════════════════════════
+//  FINAL renderEmployees — dept filter + photo + profile click
+// ═══════════════════════════════════════════════════════════
+renderEmployees = function() {
+  const q = (document.getElementById('employeeSearch')?.value||'').toLowerCase();
+  let employees = DB.employees;
+  if (q) employees = employees.filter(s => s.name.toLowerCase().includes(q) || s.id.toLowerCase().includes(q) || (s.section||'').toLowerCase().includes(q) || (s.department||'').toLowerCase().includes(q));
+  if (activeDeptFilter) employees = employees.filter(s => (s.department||'ENRO') === activeDeptFilter);
+  document.getElementById('employeeCount').textContent = DB.employees.length;
+  renderDeptFilters();
+  const el = document.getElementById('employeeList');
+  if (!employees.length) {
+    el.innerHTML = `<div class="empty-state"><i class="fas fa-id-badge"></i><p>Walang registered employees${activeDeptFilter ? ' sa department na ito' : ''}.</p></div>`;
+    return;
+  }
+  const empTypeStyles = {
+    'Regular':     { bg:'rgba(46,213,115,0.13)',  color:'var(--success)',       border:'rgba(46,213,115,0.3)' },
+    'Casual':      { bg:'rgba(108,99,255,0.13)',  color:'var(--primary-light)', border:'rgba(108,99,255,0.3)' },
+    'Job Order':   { bg:'rgba(255,165,2,0.13)',   color:'var(--warning)',        border:'rgba(255,165,2,0.3)' },
+    'Contractual': { bg:'rgba(0,212,170,0.13)',   color:'var(--accent)',         border:'rgba(0,212,170,0.3)' },
+    'Seconded':    { bg:'rgba(255,71,87,0.13)',   color:'var(--danger)',         border:'rgba(255,71,87,0.3)' },
+  };
+  el.innerHTML = employees.map((s) => {
+    const realIdx = DB.employees.findIndex(x => x.id === s.id);
+    const et = empTypeStyles[s.empType||'Regular'] || empTypeStyles['Casual'];
+    const nfcIcon = s.nfcUid ? `<i class="fas fa-wifi" style="font-size:9px;color:var(--accent);opacity:0.8;" title="May NFC card"></i>` : '';
+    const positionText = s.section ? `<div class="employee-position">${s.section}${s.department ? ' · ' + s.department : ''}</div>` : '';
+    const photoContent = s.photo
+      ? `<img src="${s.photo}" alt="${s.name}" style="width:100%;height:100%;object-fit:cover;border-radius:14px;">`
+      : initials(s.name);
+    return `
+    <div class="employee-card">
+      <div class="emp-avatar ${avatarColor(s.name)}" onclick="openProfile('${s.id}')" title="View Profile">
+        ${photoContent}
+        <div class="emp-avatar-overlay"><i class="fas fa-eye" style="font-size:12px;"></i></div>
+      </div>
+      <div class="employee-info" onclick="openProfile('${s.id}')" style="cursor:pointer;">
+        <div class="employee-name">${s.name}</div>
+        ${positionText}
+        <div class="employee-meta-row">
+          <span style="font-size:11px;font-weight:600;padding:2px 9px;border-radius:20px;background:${et.bg};color:${et.color};border:1px solid ${et.border};white-space:nowrap;">${s.empType||'Regular'}</span>
+          <span class="employee-uid-chip">${nfcIcon}${s.id}</span>
+        </div>
+      </div>
+      <div class="emp-actions">
+        <button class="emp-btn-edit" onclick="event.stopPropagation();openEdit(${realIdx})" title="I-edit"><i class="fas fa-pen"></i></button>
+        <button class="emp-btn-delete" onclick="event.stopPropagation();requireAdmin(()=>removeEmployee(${realIdx}))" title="Burahin"><i class="fas fa-trash"></i></button>
+      </div>
+    </div>`;
+  }).join('');
+};
+
+// ═══════════════════════════════════════════════════════════
+//  FINAL openEdit — with photo handling
+// ═══════════════════════════════════════════════════════════
+openEdit = function(i) {
+  const s = DB.employees[i];
+  editPhotoData = null;
+  document.getElementById('editIdx').value = i;
+  document.getElementById('editName').value = s.name;
+  document.getElementById('editId').value = s.id;
+  document.getElementById('editSection').value = s.section || '';
+  document.getElementById('editDepartment').value = s.department || '';
+  document.getElementById('editEmpType').value = s.empType || 'Regular';
+  document.getElementById('editNfcUid').value = '';
+  // Photo preview
+  const preview = document.getElementById('editPhotoPreview');
+  if (s.photo) {
+    preview.innerHTML = `<img src="${s.photo}" alt="${s.name}" style="width:80px;height:80px;object-fit:cover;border-radius:20px;">`;
+    preview.style.background = 'transparent';
+    preview.style.border = 'none';
+  } else {
+    preview.innerHTML = `<span>${initials(s.name)}</span>`;
+    preview.style.background = '';
+    preview.style.border = '';
+  }
+  // NFC
+  const currentCardEl = document.getElementById('nfcCurrentCard');
+  const currentUidEl = document.getElementById('nfcCurrentUid');
+  const statusEl = document.getElementById('nfcAssignStatus');
+  if (s.nfcUid) {
+    currentCardEl.style.display = 'block';
+    currentUidEl.textContent = s.nfcUid;
+    statusEl.textContent = 'May active na card. Mag-scan ng bago para palitan.';
+    statusEl.style.color = 'var(--text-muted)';
+  } else {
+    currentCardEl.style.display = 'none';
+    statusEl.textContent = '';
+  }
+  renderNfcHistory(s);
+  new bootstrap.Modal(document.getElementById('editModal')).show();
+};
+
+// ═══════════════════════════════════════════════════════════
+//  FINAL saveEdit — with photo support
+// ═══════════════════════════════════════════════════════════
+saveEdit = function() {
+  const i = +document.getElementById('editIdx').value;
+  const employees = DB.employees;
+  const emp = employees[i];
+  const oldNfc = emp.nfcUid || '';
+  const newNfc = document.getElementById('editNfcUid').value.trim();
+  const doSave = () => {
+    emp.name = document.getElementById('editName').value.trim();
+    emp.id = document.getElementById('editId').value.trim();
+    emp.section = document.getElementById('editSection').value.trim();
+    emp.department = document.getElementById('editDepartment').value.trim();
+    emp.empType = document.getElementById('editEmpType').value;
+    if (editPhotoData) emp.photo = editPhotoData;
+    if (newNfc) {
+      if (!emp.nfcHistory) emp.nfcHistory = [];
+      if (oldNfc && oldNfc !== newNfc) emp.nfcHistory.push({ uid: oldNfc, action: 'replaced', date: new Date().toLocaleString('en-PH') });
+      else if (!oldNfc) emp.nfcHistory.push({ uid: newNfc, action: 'assigned', date: new Date().toLocaleString('en-PH') });
+      emp.nfcUid = newNfc;
+    }
+    DB.employees = employees;
+    cancelAssignNfc();
+    renderEmployees();
+    bootstrap.Modal.getInstance(document.getElementById('editModal'))?.hide();
+    addAudit('Employee updated.', `${emp.name} (${emp.id})`);
+    toast('Employee updated!', 'success');
+  };
+  if (newNfc && oldNfc && newNfc !== oldNfc) {
+    showConfirm({ title:'Palitan ang NFC Card?', message:`Ang lumang card (${oldNfc}) ay ire-replace ng bagong card.`, detail:'Ang lumang UID ay mire-record sa card history.', icon:'fa-arrow-right-arrow-left', type:'warning', okLabel:'Palitan', okIcon:'fa-check', onConfirm: doSave });
+  } else { doSave(); }
+};
+
+// ═══════════════════════════════════════════════════════════
+//  FINAL showPage — with audit log refresh
+// ═══════════════════════════════════════════════════════════
+showPage = function(name, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  currentPage = name;
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const mobileNav = document.getElementById('nav-'+name);
+  if (mobileNav) mobileNav.classList.add('active');
+  document.querySelectorAll('.sidebar-item').forEach(s => s.classList.remove('active'));
+  if (el && el.classList.contains('sidebar-item')) el.classList.add('active');
+  else {
+    document.querySelectorAll('.sidebar-item').forEach(s => {
+      if (s.getAttribute('onclick') && s.getAttribute('onclick').includes("'"+name+"'")) s.classList.add('active');
+    });
+  }
+  if (name==='dashboard') renderDashboard();
+  if (name==='log') { renderLog(); populateDateFilters(); }
+  if (name==='scan') renderTodayScan();
+  if (name==='employees') { renderEmployees(); refreshNewUID(); }
+  if (name==='reports') { renderReport(); populateDateFilters(); populateReportDates(); }
+  if (name==='settings') { renderAuditLog(); updateAdminUI(); }
+};
+
+// ═══════════════════════════════════════════════════════════
+//  FINAL addEmployee — with audit log
+// ═══════════════════════════════════════════════════════════
+addEmployee = function() {
+  const name = document.getElementById('newName').value.trim();
+  const position = document.getElementById('newPosition').value.trim();
+  const department = document.getElementById('newDepartment').value.trim();
+  const empType = document.getElementById('newEmpType').value;
+  if (!name) { toast('Kailangan ng pangalan ng employee.', 'error'); return; }
+  const id = generateUID();
+  const employees = DB.employees;
+  employees.push({ name, id, section: position, department, empType });
+  DB.employees = employees;
+  document.getElementById('newName').value = '';
+  document.getElementById('newPosition').value = '';
+  document.getElementById('newDepartment').value = '';
+  document.getElementById('newEmpType').value = 'Regular';
+  document.getElementById('newEmployeeId').value = generateUID();
+  renderEmployees();
+  addAudit('Employee added.', name);
+  toast(`${name} naidagdag na! (${id})`, 'success');
+};
+
+// No demo data — start empty
+function seedDemo() { /* intentionally empty */ }
+
+// One-time wipe
 (function clearLegacyDemoData() {
   if (!localStorage.getItem('enro_wiped_v2')) {
-    localStorage.removeItem('att_students'); // old key from previous version
-    // keep att_employees, att_log, att_settings so user data survives
+    localStorage.removeItem('att_students');
     localStorage.setItem('enro_wiped_v2', '1');
   }
 })();
@@ -2434,11 +3300,15 @@ document.addEventListener('DOMContentLoaded', () => {
   seedDemo();
   loadSettings();
   updateClassLabel();
+  updateAdminUI();
   renderDashboard();
   renderTodayScan();
   populateDateFilters();
   updatePendingAlert();
   refreshNewUID();
+  // Restore notification timers
+  if (getSetting('dailyNotif', false)) toggleDailyNotif(true);
+  if (getSetting('autoRemind', false)) toggleAutoRemind(true);
 });
 </script>
 </body>
